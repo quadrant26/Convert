@@ -83,7 +83,7 @@
               </vue-scroll>
             </div>
             <div class="buy_fixed_bottom" v-if="boxFixedBottom">
-                <div class="fl many">所需黑钻：<strong>{{privilegeObject.privilege_price_day[currenIndex].privilege_price}}</strong>黑钻</div>
+                <div class="fl many">所需黑钻：<strong>{{discountBol ? vipmoneys :privilegeObject.privilege_price_day[currenIndex].privilege_price}}</strong>黑钻</div>
                 <div class="fr btnbuy"><a href="javascript:;" :class="[buttonClass ? 'disabled': '']">{{buttonStatusWord}}</a></div>
             </div>
         </div>
@@ -170,7 +170,6 @@
     },
     computed: {
       privilegeKeyCalc (){
-
         this.privilegeKey = this.$store.getters.getPrivilegeKey;
         this.detail_word = detail_words[this.privilegeKey];
         return this.privilegeKey != "app_limit" ? true: false;
@@ -195,11 +194,11 @@
         return buttonStr;
       }
     },
-    created (){
+    mounted (){
       this.session_id = this.$store.getters.getSessionId;
       this.user_token = this.$store.getters.getUserToken;
 
-      this.boolSvipDiscount && this.getDiscountPrivilege();
+      (this.boolSvipDiscount && this.privilegeKey == "svip") ? this.getDiscountPrivilege() : (this.discountBol = false);
     },
     methods: {
       backFirstScreen (){
@@ -213,7 +212,7 @@
           user_token: this.user_token,
           session_id: this.session_id
         }).then( data => {
-          console.log(data);
+          
           if ( data.result == 1){
             this.discountBol = true;
             if ( data.qv + data.qgg > 0 ){
@@ -222,7 +221,7 @@
             this.qggdv = data.qv + data.qgg;
             this.vipdays =data.vipdays;
             this.svipdays = data.svipdays;
-            this.vipmoneys = data.vipmoneys;
+            this.vipmoneys = data.vipmoneys*10;
           }
         }).catch( e => {
           console.log(e)
