@@ -15,3 +15,11 @@ export function getPrivilegeList(data) {
     data: data
   })
 }
+
+export function getPrivilegeUserInfo(data) {
+  return request({
+    url: '/api/user/user_privilege_UserInfo',
+    method: 'post',
+    data: data
+  })
+}

@@ -36,16 +36,12 @@
     },
     data (){
       return {
-
+        session_id: "",
+        user_token: ""
       }
     },
     components: {
       GridItem
-    },
-    created (){
-    },
-    mounted (){
-      // console.log(this.privilegeList);
     },
     methods: {
       rechargeKey (){
@@ -55,11 +51,11 @@
         this.$emit("popup")
       },
       clickPrivilege (privilege_id, privilege_key){
-        console.log(privilege_id, privilege_key)
+
         this.$store.commit("setPrivilegeId", privilege_id);
         this.$store.commit("setPrivilegeKey", privilege_key);
 
-
+        this.$emit("firstScreenMove");
       }
     }
   }
